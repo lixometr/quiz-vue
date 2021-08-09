@@ -1,5 +1,5 @@
 <template>
-  <a :href="href" class="quiz-results-item group">
+  <a :href="href" target="_blank" class="quiz-results-item group">
     <div
       class="quiz-results-item__image"
       :style="{ backgroundImage: `url(${image})` }"
@@ -35,7 +35,7 @@ export default {
     @apply pb-[105%] w-full bg-center bg-cover bg-no-repeat rounded-[44px];
   }
   &__title {
-    @apply group-hover:text-red-dark text-red text-[26px] font-extrabold flex items-center mt-[10px];
+    @apply group-hover:brightness-75 filter text-red text-[26px] font-extrabold flex items-center mt-[10px];
     svg {
       @apply ml-2;
     }

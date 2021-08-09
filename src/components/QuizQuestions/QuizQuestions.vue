@@ -55,6 +55,7 @@ export default {
     goBack() {
       if (this.activeIdx < 1) return;
       this.activeIdx--;
+      this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
     },
     nextStep() {
       if (this.activeIdx + 1 >= this.totalSteps) {

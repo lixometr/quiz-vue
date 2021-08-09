@@ -45,7 +45,7 @@ export default {
     @apply h-[70px] w-full rounded-[30px] relative bg-[#C4C4C4] overflow-hidden sm:h-[35px];
 
     &-active {
-      @apply absolute h-full rounded-[30px] bg-white;
+      @apply absolute h-full rounded-[30px] bg-second;
     }
   }
 }

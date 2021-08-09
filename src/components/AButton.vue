@@ -28,20 +28,15 @@ export default {
 <style lang="postcss">
 .app-button {
   @apply w-[400px] h-[70px] text-center outline-none rounded-[30px]
-        text-[24px] font-bold leading-[70px] transition-all sm:h-[60px] sm:text-[14px] sm:leading-[60px] sm:w-full;
+        text-[24px] font-bold leading-[70px] transition-all sm:h-[60px] sm:text-[14px] sm:leading-[60px] sm:w-full filter hover:brightness-75;
 
   &.red {
-    @apply bg-red text-white hover:bg-red-dark;
-    &[disabled] {
-      &:hover {
-        @apply bg-red;
-      }
-    }
+    @apply bg-red text-second;
   }
   &.white {
-    @apply bg-white text-black;
+    @apply bg-second text-black;
     &:not(disabled) {
-      @applyhover: shadow-none;
+      @apply hover:shadow-none;
     }
     &[disabled] {
       &:hover {
@@ -51,6 +46,9 @@ export default {
   }
   &[disabled] {
     @apply opacity-60 cursor-default;
+    &:hover {
+      @apply brightness-100;
+    }
   }
 }
 </style>

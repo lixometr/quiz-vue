@@ -23,7 +23,7 @@ export default {
 .quiz-form-image {
   @apply absolute right-[80px] bottom-0 z-10 flex w-[550px] xl:right-[60px] lg:hidden;
   &__item {
-    @apply h-[140px] rounded-tr-[44px] rounded-tl-[44px] bg-white
+    @apply h-[140px] rounded-tr-[44px] rounded-tl-[44px] bg-second
         bg-center bg-cover bg-no-repeat  flex-shrink-0 
         absolute left-0 bottom-0;
     box-shadow: 0px 4px 57px rgba(0, 0, 0, 0.25);

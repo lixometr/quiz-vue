@@ -1,5 +1,9 @@
 <template>
-  <div class="quiz" :class="state">
+  <div
+    class="quiz"
+    :class="state"
+    :style="`--main-color: ${mainColor}; --second-color: ${secondColor}`"
+  >
     <transition name="t-fade" mode="out-in">
       <div
         class="quiz__bg"
@@ -83,6 +87,12 @@ export default {
     };
   },
   computed: {
+    mainColor() {
+      return this.initialData.mainColor;
+    },
+    secondColor() {
+      return this.initialData.mainColor2;
+    },
     screens() {
       return this.initialData.screens || [];
     },
@@ -176,6 +186,7 @@ export default {
             md:flex-none md:mt-auto md:w-[640px] md:min-h-[600px] 
             sm:w-full sm:pt-[30px] sm:px-[45px] sm:min-h-[370px] sm:pb-[40px];
     box-shadow: 0px 4px 47px #000000;
+    background-blend-mode: hard-light;
     @screen md {
       box-shadow: none;
     }

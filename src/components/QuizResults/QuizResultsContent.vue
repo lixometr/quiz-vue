@@ -15,6 +15,6 @@ export default {
 
 <style lang="postcss">
 .quiz-results-content {
-  @apply text-white;
+  @apply text-second;
 }
 </style>

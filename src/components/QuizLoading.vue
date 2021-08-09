@@ -21,6 +21,6 @@ export default {
 
 <style lang="postcss">
 .quiz-loading {
-  @apply text-white flex flex-col;
+  @apply text-second flex flex-col;
 }
 </style>

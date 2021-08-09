@@ -22,7 +22,7 @@ export default {
     h1: String,
     h2: String,
     h3: Array,
-    
+
     button: String,
   },
   inheritAttrs: false,
@@ -40,7 +40,7 @@ export default {
 
 <style lang="postcss">
 .quiz-start {
-  @apply text-white;
+  @apply text-second;
   h1 {
     @apply mb-[50px] sm:mb-[40px];
   }

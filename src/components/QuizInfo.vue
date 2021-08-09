@@ -19,7 +19,7 @@ export default {
 
 <style lang="postcss">
 .quiz-info {
-  @apply relative z-20 pt-[40px] space-x-[60px] pl-[140px] text-white
+  @apply relative z-20 pt-[40px] space-x-[60px] pl-[140px] text-second
     flex items-center md:pl-[120px] sm:flex-col sm:items-start sm:pt-[20px]  sm:space-x-0 sm:pl-[45px];
   &__item {
     @apply max-w-[300px] font-bold text-[20px] md:text-[18px] sm:text-[12px];

@@ -29,6 +29,7 @@
         <a-button color="white" class="mt-[40px] sm:mt-[35px]">{{
           button
         }}</a-button>
+        <div class="mt-1 text-[16px] sm:text-[14px]">{{ errorMessage }}</div>
       </form>
     </div>
   </div>
@@ -49,12 +50,16 @@ export default {
   data() {
     return {
       phone: "",
+      errorMessage: "",
     };
   },
+  computed: {},
   methods: {
     onSubmit() {
-      const isValid = this.validate();
-      if (!isValid) return;
+      if (!this.validate()) {
+        this.errorMessage = "Вы ввели неправильный номер телефона";
+        return;
+      }
       this.$emit("submit", this.phone);
     },
     validate() {
@@ -62,14 +67,19 @@ export default {
       return results?.length === 11;
     },
   },
+  watch: {
+    phone() {
+      this.errorMessage = "";
+    },
+  },
 };
 </script>
 
 <style lang="postcss">
 .quiz-form {
-  @apply text-white;
+  @apply text-second;
   &__input {
-    @apply bg-white rounded-[30px] py-[20px] px-[25px] text-red outline-none border-none
+    @apply bg-second rounded-[30px] py-[20px] px-[25px] text-red outline-none border-none
       w-[400px] font-medium text-[30px] leading-none placeholder-red
       sm:w-full sm:text-[24px] sm:h-[60px];
   }

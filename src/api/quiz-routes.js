@@ -1,5 +1,12 @@
 import { AppAxios } from "./app-axios";
+// import Vue from "vue";
 export const getInitialData = async () => {
+  // const roistat = Vue.$cookies.get("roistat_visit");
+  // const ym_id = Vue.$cookies.get("_ym_uid");
+  // const { data } = await AppAxios.post("init-data", {
+  //   roistat,
+  //   ym_id
+  // });
   const { data } = await AppAxios.post("init-data");
   return data;
 };

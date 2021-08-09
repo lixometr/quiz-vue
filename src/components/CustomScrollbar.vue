@@ -24,7 +24,7 @@ export default {};
       @apply w-[2px] rounded-[10px] bg-[#F3F3F3] mr-[10px] opacity-100 right-[8px] mb-3 !important;
     }
     &__thumb-y {
-      @apply bg-red hover:bg-red-dark opacity-100 w-[14px] transform translate-x-[8px]
+      @apply bg-red filter hover:brightness-75 opacity-100 w-[14px] transform translate-x-[8px]
         sm:w-[9px] sm:translate-x-[5px] !important;
       box-shadow: 3px 4px 7px rgba(0, 0, 0, 0.25);
     }
