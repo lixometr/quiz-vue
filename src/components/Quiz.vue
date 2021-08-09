@@ -153,7 +153,21 @@ export default {
           phone: normPhone,
           sessionId: this.sessionId,
         });
-        console.log("results", this.resultsData);
+        if (typeof gtag === "function")
+          // eslint-disable-next-line no-undef
+          gtag("event", this.initialData.googleTarget[0], {
+            event_category: this.initialData.googleTarget[1],
+            event_label: this.initialData.googleTarget[2],
+          });
+
+        if (typeof ym === "function" && this.initialData.yMetrikaId)
+          // eslint-disable-next-line no-undef
+          ym(
+            this.initialData.yMetrikaId,
+            "reachGoal",
+            this.initialData.yandexTarget,
+            {}
+          );
         this.nextStep();
         this.bgImage = this.resultsData.imageBack;
       } catch (err) {
