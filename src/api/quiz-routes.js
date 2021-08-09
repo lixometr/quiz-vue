@@ -48,6 +48,11 @@ export const completeQuiz = async ({ sessionId, phone }) => {
   const { data } = await AppAxios.post("complete", formData);
   return data;
 };
+// export const saveAnswers = async (toSend) => {
+//   const formData = createFormData(toSend);
+//   const { data } = await AppAxios.post("save", formData);
+//   return data;
+// };
 export const saveAnswers = async () => {
   return {
     h1: "Подобрано 135 вариантов по вашим параметрам",
