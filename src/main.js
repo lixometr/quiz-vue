@@ -3,7 +3,7 @@ import App from "./App.vue";
 import PerfectScrollbar from "vue2-perfect-scrollbar";
 import VueMask from "v-mask";
 import VueCookies from "vue-cookies";
-
+import "vue2-animate/dist/vue2-animate.min.css";
 import "vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css";
 import "@/assets/css/tailwind.css";
 

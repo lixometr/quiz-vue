@@ -4,7 +4,7 @@
     :class="state"
     :style="`--main-color: ${mainColor}; --second-color: ${secondColor}; --card-bg-color: ${questionBackColor}; --button-text-color: ${buttonTextColor}`"
   >
-    <transition name="t-fade" mode="out-in">
+    <transition enter-active-class="fadeInUp" leave-active-class="fadeOutDown">
       <div
         class="quiz__bg"
         :style="{ backgroundImage: `url(${bgImage})` }"
@@ -15,7 +15,11 @@
       class="quiz__content"
       :style="{ backgroundImage: `url(${bgContent})` }"
     >
-      <transition name="t-content" mode="out-in">
+      <transition
+        mode="out-in"
+        enter-active-class="flipInX"
+        leave-active-class="flipOutX"
+      >
         <quiz-start
           v-if="state === 'start' || state === 'questions'"
           v-bind="initialData"

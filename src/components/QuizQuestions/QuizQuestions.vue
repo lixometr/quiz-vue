@@ -36,6 +36,9 @@ export default {
       activeIdx: 0,
     };
   },
+  created() {
+    this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
+  },
   computed: {
     activeQuestion() {
       return this.items[this.activeIdx] || {};

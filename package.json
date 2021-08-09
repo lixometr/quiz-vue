@@ -10,11 +10,14 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "i": "^0.3.6",
+    "npm": "^7.20.5",
     "query-string": "^7.0.1",
     "v-mask": "^2.2.4",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.4",
     "vue-slider-component": "^3.2.14",
+    "vue2-animate": "^2.1.4",
     "vue2-perfect-scrollbar": "^1.5.0"
   },
   "devDependencies": {
