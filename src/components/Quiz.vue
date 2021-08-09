@@ -2,7 +2,7 @@
   <div
     class="quiz"
     :class="state"
-    :style="`--main-color: ${mainColor}; --second-color: ${secondColor}`"
+    :style="`--main-color: ${mainColor}; --second-color: ${secondColor}; --card-bg-color: ${questionBackColor}; --button-text-color: ${buttonTextColor}`"
   >
     <transition name="t-fade" mode="out-in">
       <div
@@ -49,7 +49,7 @@
     <transition name="t-fade">
       <quiz-form-image v-if="state === 'form'" v-bind="formData" />
     </transition>
-    <quiz-info v-bind="initialData" />
+    <quiz-info v-bind="initialData" v-if="state !== 'results'" />
   </div>
 </template>
 
@@ -92,6 +92,12 @@ export default {
     },
     secondColor() {
       return this.initialData.mainColor2;
+    },
+    questionBackColor() {
+      return this.initialData.questionBackColor;
+    },
+    buttonTextColor() {
+      return this.initialData.buttonTextColor;
     },
     screens() {
       return this.initialData.screens || [];
@@ -195,7 +201,7 @@ export default {
     }
   }
   &__float-bar {
-    @apply z-30 rounded-[30px] bg-white
+    @apply z-30 rounded-[30px] bg-cardBg
       pt-[50px] pb-[50px] sm:pt-[25px] sm:pb-[25px];
     box-shadow: 0px 4px 57px rgba(0, 0, 0, 0.25);
   }

@@ -19,6 +19,8 @@ module.exports = {
     },
     colors: {
       white: "#fff",
+      cardBg: "var(--card-bg-color)",
+      buttonText: "var(--button-text-color)",
       second: "var(--second-color)",
       black: "#000",
       red: {

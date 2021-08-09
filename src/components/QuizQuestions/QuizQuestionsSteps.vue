@@ -27,7 +27,7 @@ export default {
 
 <style lang="postcss">
 .quiz-questions-steps {
-  @apply absolute top-0 right-0 z-40 rounded-[30px] px-[40px] py-[30px] bg-white 
+  @apply absolute top-0 right-0 z-40 rounded-[30px] px-[40px] py-[30px] bg-cardBg 
     md:rounded-tr-none md:rounded-br-none
     sm:rounded-tl-none sm:py-[25px] sm:px-[25px];
   box-shadow: 0px 4px 57px rgba(0, 0, 0, 0.25);
