@@ -60,6 +60,7 @@ export default {
     nextStep() {
       if (this.activeIdx + 1 >= this.totalSteps) {
         this.$emit("submit");
+        return;
       }
       this.activeIdx++;
       this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
