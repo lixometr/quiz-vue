@@ -121,37 +121,44 @@ export default {
   created() {
     this.fetchInitial();
     this.$eventBus.$on("bg", (newBg) => {
-      console.log("new bg", newBg);
       this.bgImage = newBg;
     });
   },
   methods: {
     async sendQuestions() {
-      const answers = this.questions.map((q) => {
-        const qAnswers = this.answers[q.id];
-        return {
-          id: q.id,
-          value: qAnswers,
+      try {
+        const answers = this.questions.map((q) => {
+          const qAnswers = this.answers[q.id];
+          return {
+            id: q.id,
+            value: qAnswers,
+          };
+        });
+        const toSend = {
+          sessionId: this.sessionId,
+          screens: answers,
         };
-      });
-      const toSend = {
-        sessionId: this.sessionId,
-        screens: answers,
-      };
-      console.log(toSend);
-      this.formData = await saveAnswers(toSend);
-      this.bgImage = this.formData.imageBack;
-      this.nextStep();
+        console.log(toSend);
+        this.formData = await saveAnswers(toSend);
+        this.bgImage = this.formData.imageBack;
+        this.nextStep();
+      } catch (err) {
+        console.log(err);
+      }
     },
     async sendForm(phone) {
-      const normPhone = phone.replace(/[()\s-]/g, "");
-      this.resultsData = await completeQuiz({
-        phone: normPhone,
-        sessionId: this.sessionId,
-      });
-      console.log("results", this.resultsData);
-      this.nextStep();
-      this.bgImage = this.resultsData.imageBack;
+      try {
+        const normPhone = phone.replace(/[()\s-]/g, "");
+        this.resultsData = await completeQuiz({
+          phone: normPhone,
+          sessionId: this.sessionId,
+        });
+        console.log("results", this.resultsData);
+        this.nextStep();
+        this.bgImage = this.resultsData.imageBack;
+      } catch (err) {
+        console.log(err);
+      }
     },
     nextStep() {
       if (this.stateIdx < this.stateOrder.length - 1) {
@@ -159,10 +166,14 @@ export default {
       }
     },
     async fetchInitial() {
-      const data = await getInitialData();
-      this.initialData = data;
-      this.bgImage = data.imageBack;
-      console.log(data);
+      try {
+        const data = await getInitialData();
+        this.initialData = data;
+        this.bgImage = data.imageBack;
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };

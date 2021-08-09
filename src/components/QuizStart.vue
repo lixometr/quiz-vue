@@ -41,6 +41,9 @@ export default {
 <style lang="postcss">
 .quiz-start {
   @apply text-second;
+  .font-sans {
+    font-family: sans-serif;
+  }
   h1 {
     @apply mb-[50px] sm:mb-[40px];
   }
