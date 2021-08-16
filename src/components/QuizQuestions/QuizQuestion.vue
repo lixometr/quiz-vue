@@ -37,6 +37,7 @@ export default {
   },
   inheritAttrs: false,
   props: {
+    minSliderValue: Number,
     title: String,
     items: {
       type: Array,

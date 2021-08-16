@@ -8,7 +8,7 @@
       <VueSlider
         v-model="valueModel"
         :max="parseInt(limit)"
-        :min="0"
+        :min="parseInt(minValue)"
         :dotSize="27"
         :tooltip="'none'"
         :contained="true"
@@ -27,7 +27,9 @@ export default {
   props: {
     value: [Number],
     limit: [Number, String],
+    start: [Number, String],
     defaultValue: [Number, String],
+    minValue: [Number, String],
   },
   created() {
     if (this.defaultValue) {

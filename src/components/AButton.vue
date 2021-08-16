@@ -31,7 +31,7 @@ export default {
         text-[24px] font-bold leading-[70px] transition-all sm:h-[60px] sm:text-[14px] sm:leading-[60px] sm:w-full filter hover:brightness-75;
 
   &.red {
-    @apply bg-red text-buttonText;
+    @apply bg-red text-cardBg;
   }
   &.white {
     @apply bg-second text-buttonText;
