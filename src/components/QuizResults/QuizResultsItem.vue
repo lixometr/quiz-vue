@@ -35,7 +35,7 @@ export default {
     @apply pb-[105%] w-full bg-center bg-cover bg-no-repeat rounded-[44px];
   }
   &__title {
-    @apply group-hover:brightness-75 filter text-red text-[26px] font-extrabold flex items-center mt-[10px];
+    @apply group-hover:brightness-75 filter text-red text-[20px] font-extrabold flex items-center mt-[10px];
     svg {
       @apply ml-2;
     }

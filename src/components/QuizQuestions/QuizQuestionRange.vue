@@ -27,6 +27,7 @@ export default {
   props: {
     value: [Number],
     limit: [Number, String],
+    start: [Number, String],
     defaultValue: [Number, String],
     minValue: [Number, String],
   },

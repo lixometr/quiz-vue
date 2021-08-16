@@ -188,7 +188,7 @@ export default {
         const data = await getInitialData();
         this.initialData = data;
         this.bgImage = data.imageBack;
-        console.log(data);
+        //console.log(data);
       } catch (err) {
         console.log(err);
       }
@@ -199,10 +199,10 @@ export default {
 
 <style lang="postcss">
 .quiz {
-  @apply w-full min-h-screen relative pt-[60px] pb-[60px] flex flex-col md:pt-[300px] sm:pt-[90px];
+  @apply w-full min-h-screen relative pt-[60px] pb-[60px] flex flex-col md:pt-[60px] sm:pt-[60px];
   h1,
   h2 {
-    @apply text-[50px] font-extrabold leading-none md:text-[40px] sm:text-[24px] sm:leading-tight;
+    @apply text-[35px] font-extrabold leading-[1.2] md:text-[30px] sm:text-[20px] sm:leading-tight;
   }
   &__bg {
     @apply z-10 absolute top-0 left-0 right-0 bottom-0 bg-center bg-no-repeat bg-cover;
@@ -213,13 +213,13 @@ export default {
     }
   }
   &__content {
-    @apply flex-1 relative overflow-hidden z-30
+    @apply mb-auto relative overflow-hidden z-30
             w-[690px] pt-[100px] pl-[140px] pb-[80px] pr-[90px] bg-red rounded-tr-[30px] rounded-br-[30px]
-            bg-cover bg-center bg-no-repeat min-h-[700px]
+            bg-cover bg-center bg-no-repeat
             flex flex-col
             md:pl-[120px] md:pt-[80px] md:pb-[70px]
-            md:flex-none md:mt-auto md:w-[640px] md:min-h-[600px] 
-            sm:w-full sm:pt-[30px] sm:px-[45px] sm:min-h-[370px] sm:pb-[40px];
+            md:flex-none md:mb-auto md:w-[640px] 
+            sm:w-full sm:pt-[30px] sm:px-[45px] sm:pb-[40px];
     box-shadow: 0px 4px 47px #000000;
     background-blend-mode: hard-light;
     @screen md {
