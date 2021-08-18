@@ -1,14 +1,13 @@
 <template>
   <div class="quiz-questions">
-    <quiz-questions-steps :current="currentStep" :total="totalSteps" />
+    <quiz-questions-steps :current="currentStep" :total="totalItems" />
     <div class="quiz__float-bar quiz-questions__bar">
       <transition name="t-fade" mode="out-in">
         <quiz-question
           class="flex-1"
           :key="activeQuestion.id"
-          :value="value[activeQuestion.id]"
-          @input="onQuestionInput"
           v-bind="activeQuestion"
+          v-model="answers[activeQuestion.id]"
           :defaultValue="activeQuestion.value"
           @back="goBack"
           @next="nextStep"
@@ -22,18 +21,23 @@
 <script>
 import QuizQuestion from "./QuizQuestion.vue";
 import QuizQuestionsSteps from "./QuizQuestionsSteps.vue";
+import { saveAnswer } from "../../api/quiz-routes";
 export default {
   components: { QuizQuestionsSteps, QuizQuestion },
   props: {
+    totalItems: Number,
     value: Object,
-    items: {
-      type: Array,
-      default: () => [],
+    item: {
+      type: Object,
+      default: () => ({}),
     },
+    sessionId: String,
   },
   data() {
     return {
       activeIdx: 0,
+      questions: [this.item],
+      answers: {},
     };
   },
   created() {
@@ -41,32 +45,45 @@ export default {
   },
   computed: {
     activeQuestion() {
-      return this.items[this.activeIdx] || {};
+      return this.questions[this.activeIdx] || {};
     },
     currentStep() {
       return this.activeIdx + 1;
     },
-    totalSteps() {
-      return this.items.length;
-    },
   },
   methods: {
-    onQuestionInput(val) {
-      const newVal = { ...this.value, [this.activeQuestion.id]: val };
-      this.$emit("input", newVal);
-    },
     goBack() {
       if (this.activeIdx < 1) return;
       this.activeIdx--;
       this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
     },
-    nextStep() {
-      if (this.activeIdx + 1 >= this.totalSteps) {
-        this.$emit("submit");
-        return;
-      }
+    async nextStep() {
+      await this.saveQuestion();
+
+      if (this.activeIdx + 1 >= this.totalItems) return;
       this.activeIdx++;
       this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
+    },
+    async saveQuestion() {
+      const answers = this.answers[this.activeQuestion.id];
+      const nextQuestion = await saveAnswer({
+        sessionId: this.sessionId,
+        questionId: this.activeQuestion.id,
+        answers,
+      });
+      const newQuestions = this.questions.slice(0, this.activeIdx + 1);
+      if (nextQuestion.type === "process") {
+        this.$emit("submit", nextQuestion);
+        return;
+      }
+      const newAnswers = {};
+      Object.keys(this.answers).forEach((key) => {
+        if (newQuestions.findIndex((q) => q.id === key) < 0) return;
+        newAnswers[key] = this.answers[key];
+      });
+      this.answers = newAnswers;
+      newQuestions.push(nextQuestion);
+      this.questions = newQuestions;
     },
   },
 };

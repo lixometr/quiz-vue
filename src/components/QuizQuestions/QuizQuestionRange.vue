@@ -7,8 +7,8 @@
     <div>
       <VueSlider
         v-model="valueModel"
-        :max="parseInt(limit)"
-        :min="parseInt(minValue)"
+        :max="limit"
+        :min="minValue"
         :dotSize="27"
         :tooltip="'none'"
         :contained="true"
@@ -26,20 +26,20 @@ export default {
   inheritAttrs: false,
   props: {
     value: [Number],
-    limit: [Number, String],
+    limit: [Number],
     start: [Number, String],
     defaultValue: [Number, String],
-    minValue: [Number, String],
+    minValue: [Number],
   },
   created() {
-    if (this.defaultValue) {
+    if (this.defaultValue && !this.value) {
       this.$emit("input", parseInt(this.defaultValue));
     }
   },
   computed: {
     valueModel: {
       get() {
-        return this.value;
+        return this.value || parseInt(this.minValue) || 0;
       },
       set(val) {
         this.$emit("input", val);

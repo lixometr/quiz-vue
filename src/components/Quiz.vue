@@ -19,6 +19,8 @@
         mode="out-in"
         enter-active-class="flipInX"
         leave-active-class="flipOutX"
+        @beforeEnter="isEnter = false"
+        @afterEnter="isEnter = true"
       >
         <quiz-start
           v-if="state === 'start' || state === 'questions'"
@@ -45,13 +47,15 @@
       <quiz-questions
         v-model="answers"
         v-if="state === 'questions'"
-        :items="questions"
-        @submit="sendQuestions"
+        :sessionId="sessionId"
+        :item="firstQuestion"
+        @submit="submitQuestions"
+        :totalItems="questionsCount"
       />
     </transition>
     <quiz-results v-if="state === 'results'" v-bind="resultsData" />
     <transition name="t-fade">
-      <quiz-form-image v-if="state === 'form'" v-bind="formData" />
+      <quiz-form-image v-if="state === 'form' && isEnter" v-bind="formData" />
     </transition>
     <quiz-info v-bind="initialData" v-if="state !== 'results'" />
   </div>
@@ -66,7 +70,7 @@ import QuizQuestions from "./QuizQuestions/QuizQuestions.vue";
 import QuizResults from "./QuizResults/QuizResults.vue";
 import QuizResultsContent from "./QuizResults/QuizResultsContent.vue";
 import QuizStart from "./QuizStart.vue";
-import { getInitialData, saveAnswers, completeQuiz } from "@/api/quiz-routes";
+import { getInitialData, completeQuiz, getFormData } from "@/api/quiz-routes";
 export default {
   components: {
     QuizStart,
@@ -85,12 +89,21 @@ export default {
       resultsData: {},
       bgImage: "",
       answers: {},
+      loadingData: {},
       phone: "",
+      questions: [],
+      isEnter: false,
       stateIdx: 0,
       stateOrder: ["start", "questions", "loading", "form", "results"],
     };
   },
   computed: {
+    questionsCount() {
+      return this.initialData.questionsCount;
+    },
+    firstQuestion() {
+      return this.initialData.nextQuestion;
+    },
     mainColor() {
       return this.initialData.mainColor;
     },
@@ -102,15 +115,6 @@ export default {
     },
     buttonTextColor() {
       return this.initialData.buttonTextColor;
-    },
-    screens() {
-      return this.initialData.screens || [];
-    },
-    loadingData() {
-      return this.screens[this.screens.length - 1];
-    },
-    questions() {
-      return this.screens.slice(0, this.screens.length - 1);
     },
     bgContent() {
       return this.initialData.imageBack2;
@@ -129,21 +133,10 @@ export default {
     });
   },
   methods: {
-    async sendQuestions() {
+    async submitQuestions(loadingData) {
       try {
-        const answers = this.questions.map((q) => {
-          const qAnswers = this.answers[q.id];
-          return {
-            id: q.id,
-            value: qAnswers,
-          };
-        });
-        const toSend = {
-          sessionId: this.sessionId,
-          screens: answers,
-        };
-        console.log(toSend);
-        this.formData = await saveAnswers(toSend);
+        this.loadingData = loadingData;
+        this.formData = await getFormData({ sessionId: this.sessionId });
         this.bgImage = this.formData.imageBack;
         this.nextStep();
       } catch (err) {
