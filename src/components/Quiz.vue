@@ -19,7 +19,6 @@
         mode="out-in"
         enter-active-class="flipInX"
         leave-active-class="flipOutX"
-        @beforeEnter="isEnter = false"
         @afterEnter="isEnter = true"
       >
         <quiz-start
@@ -173,6 +172,8 @@ export default {
     },
     nextStep() {
       if (this.stateIdx < this.stateOrder.length - 1) {
+        this.isEnter = false;
+
         this.stateIdx++;
       }
     },
