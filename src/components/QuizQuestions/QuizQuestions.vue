@@ -93,7 +93,7 @@ export default {
 .quiz-questions {
   @apply z-50 absolute left-[90px] top-[100px] bottom-0
     pt-[40px] pr-[40px] flex flex-col md:top-[220px] md:left-0 md:right-0 md:pr-0
-    sm:top-[0];
+    sm:top-[0]  sm:max-h-[calc(95vh-60px)];
   &__bar {
     @apply w-[800px] min-h-[400px] max-h-[750px] flex flex-col flex-1 md:w-full sm:max-h-full;
   }

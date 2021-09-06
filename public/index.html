@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="RU">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="{{ favicon }}">
+    <link rel="icon" href="{{ favicon }}" sizes="32x32"  type="image/png" >
     <title>{{ title }}</title>
     {{ jshead }}
+    {% for meta in custom_meta %}
+	{{ meta.line }}
+    {% endfor %}
   </head>
   <body>
     {{ jsbody }}

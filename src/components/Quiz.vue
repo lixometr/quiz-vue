@@ -194,6 +194,9 @@ export default {
 <style lang="postcss">
 .quiz {
   @apply w-full min-h-screen relative pt-[60px] pb-[60px] flex flex-col md:pt-[60px] sm:pt-[60px];
+  .quiz-info {
+     @apply sm:invisible;
+  }
   h1,
   h2 {
     @apply text-[35px] font-extrabold leading-[1.2] md:text-[30px] sm:text-[20px] sm:leading-tight;
