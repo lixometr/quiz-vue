@@ -12,12 +12,13 @@ export const getInitialData = async () => {
   return data;
 };
 
-export const completeQuiz = async ({ sessionId, phone }) => {
+export const completeQuiz = async ({ sessionId, phone, name }) => {
   const roistat = Vue.$cookies.get("roistat_visit");
   const ym_id = Vue.$cookies.get("_ym_uid");
   const toSend = {
     sessionId,
     phone,
+    name,
     roistat,
     ym_id,
   };

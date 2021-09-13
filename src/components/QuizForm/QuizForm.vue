@@ -53,7 +53,7 @@ export default {
         this.screen++;
       }
     },
-    onItemSubmit(idx, value) {
+    onItemSubmit(value) {
       this.$set(this.values, this.screen, value);
       this.goNext();
     },

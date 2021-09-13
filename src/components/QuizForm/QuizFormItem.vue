@@ -21,7 +21,7 @@
     >
       <input
         type="text"
-        v-model="name"
+        v-model="value"
         class="quiz-form__input mt-8"
         :placeholder="placeholder"
       />

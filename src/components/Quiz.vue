@@ -259,11 +259,12 @@ export default {
         console.log(err);
       }
     },
-    async sendForm(phone) {
+    async sendForm({ phone, name }) {
       try {
         const normPhone = phone.replace(/[()\s-]/g, "");
         this.resultsData = await completeQuiz({
           phone: normPhone,
+          name,
           sessionId: this.sessionId,
         });
         if (typeof gtag === "function")
