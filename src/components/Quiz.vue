@@ -23,7 +23,8 @@
       >
         <quiz-start
           v-if="state === 'start' || state === 'questions'"
-          v-bind="initialData"
+          v-bind="initialData.titles"
+          :button="initialData.button"
           @submit="nextStep"
         />
         <quiz-loading
@@ -54,14 +55,30 @@
     </transition>
     <quiz-results v-if="state === 'results'" v-bind="resultsData" />
     <transition name="t-fade">
-      <quiz-form-image v-if="state === 'form' && isEnter" v-bind="formData" />
+      <quiz-form-image
+        v-if="state === 'form' && isEnter"
+        :imageBottom="formData.images.imageBottom"
+      />
     </transition>
-    <quiz-info v-bind="initialData" v-if="state !== 'results'" />
+    <quiz-info
+      :logo="initialData.images.logo"
+      :tagline="initialData.titles.tagline"
+      v-if="state !== 'results'"
+    />
+    <quiz-questions-info v-if="state === 'questions'" />
+    <transition name="t-fade" mode="out-in">
+      <quiz-filters
+        v-if="state === 'form'"
+        v-bind="filter"
+        v-model="filtersData"
+        @input="onChangeFiltersData"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
-import QuizForm from "./QuizForm.vue";
+import QuizForm from "./QuizForm/QuizForm.vue";
 import QuizFormImage from "./QuizFormImage.vue";
 import QuizInfo from "./QuizInfo.vue";
 import QuizLoading from "./QuizLoading.vue";
@@ -69,7 +86,14 @@ import QuizQuestions from "./QuizQuestions/QuizQuestions.vue";
 import QuizResults from "./QuizResults/QuizResults.vue";
 import QuizResultsContent from "./QuizResults/QuizResultsContent.vue";
 import QuizStart from "./QuizStart.vue";
-import { getInitialData, completeQuiz, getFormData } from "@/api/quiz-routes";
+import {
+  getInitialData,
+  completeQuiz,
+  getFormData,
+  sendFilters,
+} from "@/api/quiz-routes";
+import QuizQuestionsInfo from "./QuizQuestions/QuizQuestionsInfo.vue";
+import QuizFilters from "./QuizFilters/QuizFilters.vue";
 export default {
   components: {
     QuizStart,
@@ -80,16 +104,74 @@ export default {
     QuizResultsContent,
     QuizInfo,
     QuizFormImage,
+    QuizQuestionsInfo,
+    QuizFilters,
   },
   data() {
     return {
-      initialData: {},
-      formData: {},
+      initialData: {
+        colors: {},
+        images: {},
+        titles: {},
+      },
+      filtersData: {},
+      formData: {
+        screens: [
+          {
+            h1: "hey",
+            button: "Go",
+            type: "phone",
+          },
+          {
+            h1: "Name",
+            button: "Yup",
+          },
+        ],
+      },
+      filter: {
+        title: "Изменить параметры подбора",
+        filters: [
+          {
+            title: "стоимость",
+            id: "price",
+            presets: [2, 3, 5, 7],
+            minValue: 2638100,
+            limit: 4638100,
+            value: 3638100,
+            type: "rangeSlider",
+          },
+          {
+            title: "комнатность",
+            type: "buttons",
+            id: "other",
+            items: [
+              { id: 0, value: "Студии", selected: false },
+              { id: 1, value: "1-комнатные квартиры", selected: true },
+            ],
+            available: [0, 1], // show options with these id only. Other options must be hidden.
+          },
+          {
+            title: "Районы",
+            type: "listBox",
+
+            id: "rooms",
+            controls: true, // If enable show "select all" and "clear" button
+            items: [
+              { id: 0, value: "Юбилейный", selected: false },
+              { id: 1, value: "Черемушки", selected: true },
+              { id: 2, value: "sads", selected: true },
+              { id: 3, value: "Черемуsadsaшки", selected: false },
+              { id: 4, value: "Юбилеasdйный", selected: false },
+              { id: 5, value: "Черемушки", selected: false },
+            ],
+            available: [0, 1, 2, 3, 4, 5], // show options with these id only. Other options must be hidden.
+          },
+        ],
+      },
       resultsData: {},
       bgImage: "",
       answers: {},
       loadingData: {},
-      phone: "",
       questions: [],
       isEnter: false,
       stateIdx: 0,
@@ -101,22 +183,22 @@ export default {
       return this.initialData.questionsCount;
     },
     firstQuestion() {
-      return this.initialData.nextQuestion;
+      return this.initialData.question;
     },
     mainColor() {
-      return this.initialData.mainColor;
+      return this.initialData.colors.main1;
     },
     secondColor() {
-      return this.initialData.mainColor2;
+      return this.initialData.colors.main2;
     },
     questionBackColor() {
-      return this.initialData.questionBackColor;
+      return this.initialData.colors.questionBack;
     },
     buttonTextColor() {
-      return this.initialData.buttonTextColor;
+      return this.initialData.colors.buttonText;
     },
     bgContent() {
-      return this.initialData.imageBack2;
+      return this.initialData.images.back2;
     },
     state() {
       return this.stateOrder[this.stateIdx];
@@ -132,11 +214,46 @@ export default {
     });
   },
   methods: {
+    onChangeFiltersData() {
+      console.log("change filter", this.filtersData);
+      this.sendFilters();
+    },
+    async sendFilters() {
+      const filters = Object.keys(this.filtersData).map((filterId) => ({
+        id: filterId,
+        values: this.filtersData[filterId],
+      }));
+      const newFilters = await sendFilters({
+        sessionId: this.sessionId,
+        filters,
+      });
+      const receivedFilters = newFilters.filters;
+      this.filter.filters.map((filter) => {
+        const updatedFilters = receivedFilters[filter.id];
+        if (!updatedFilters) return;
+        filter.available = updatedFilters;
+      });
+    },
+    setFilters(filter) {
+      filter.filters.forEach((filterItem) => {
+        if (!filterItem.items) return;
+        filterItem.items.forEach((item) => {
+          if (!item.selected) return;
+          if (!this.filtersData[filterItem.id]) {
+            this.$set(this.filtersData, filterItem.id, []);
+          }
+          const newValue = [...this.filtersData[filterItem.id], item.id];
+          this.$set(this.filtersData, filterItem.id, newValue);
+        });
+      });
+      this.filter = filter;
+    },
     async submitQuestions(loadingData) {
       try {
         this.loadingData = loadingData;
         this.formData = await getFormData({ sessionId: this.sessionId });
-        this.bgImage = this.formData.imageBack;
+        this.setFilters(this.formData.screens[0].filter);
+        this.bgImage = this.formData.images.imageBack;
         this.nextStep();
       } catch (err) {
         console.log(err);
@@ -151,17 +268,20 @@ export default {
         });
         if (typeof gtag === "function")
           // eslint-disable-next-line no-undef
-          gtag("event", this.initialData.googleTarget[0], {
-            event_category: this.initialData.googleTarget[1],
-            event_label: this.initialData.googleTarget[2],
+          gtag("event", this.initialData.targets.google[0], {
+            event_category: this.initialData.targets.google[1],
+            event_label: this.initialData.targets.google[2],
           });
 
-        if (typeof ym === "function" && this.initialData.yMetrikaId)
+        if (
+          typeof ym === "function" &&
+          this.initialData.targets.yandex.yMetrikaId
+        )
           // eslint-disable-next-line no-undef
           ym(
-            this.initialData.yMetrikaId,
+            this.initialData.targets.yandex.yMetrikaId,
             "reachGoal",
-            this.initialData.yandexTarget,
+            this.initialData.targets.yandex.yandexTarget,
             {}
           );
         this.nextStep();
@@ -181,7 +301,7 @@ export default {
       try {
         const data = await getInitialData();
         this.initialData = data;
-        this.bgImage = data.imageBack;
+        this.bgImage = data.images.back1;
         //console.log(data);
       } catch (err) {
         console.log(err);
@@ -195,7 +315,7 @@ export default {
 .quiz {
   @apply w-full min-h-screen relative pt-[60px] pb-[60px] flex flex-col md:pt-[60px] sm:pt-[60px];
   .quiz-info {
-     @apply sm:invisible;
+    @apply sm:invisible;
   }
   h1,
   h2 {

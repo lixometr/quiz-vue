@@ -1,29 +1,34 @@
 <template>
-  <div class="quiz-question-range">
-    <div class="quiz-question-range__presets">
+  <div class="quiz-filters-range quiz-filters-item">
+    <div class="quiz-filters-item__title">
+      {{ title }}
+    </div>
+    <div class="quiz-filters-range__presets">
       <a-badge
-        class="quiz-question-range__preset"
+        class="quiz-filters-range__preset"
         href="javascript:void(0)"
         @click.prevent="choosePreset(item)"
         v-for="(item, idx) in presets"
         :key="idx"
         >{{ item }} млн</a-badge
       >
-      <!-- <svgCross @click="> -->
     </div>
-    <div class="quiz-question-range__value">
-      <span class="text-red"> {{ normValue }}</span>
-      <svgRuble class="ml-1 text-black" width="15" />
-    </div>
-    <div>
-      <VueSlider
-        v-model="valueModel"
-        :max="limit"
-        :min="minValue"
-        :dotSize="27"
-        :tooltip="'none'"
-        :contained="true"
-      />
+    <div class="quiz-filters-range__content">
+      <div class="quiz-filters-range__value">
+        <span class="text-red"> {{ normValue }}</span>
+        <svgRuble width="10" class="ml-1 text-black" />
+      </div>
+      <div class="quiz-filters-range__slider">
+        <VueSlider
+          v-model="cValue"
+          @drag-end="onSliderChange"
+          :max="limit"
+          :min="minValue"
+          :dotSize="20"
+          :tooltip="'none'"
+          :contained="true"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -49,9 +54,14 @@ export default {
     },
     value: [Number],
     limit: [Number],
-    start: [Number, String],
     defaultValue: [Number, String],
     minValue: [Number],
+    title: String,
+  },
+  data() {
+    return {
+      cValue: this.value || parseInt(this.minValue) || 0,
+    };
   },
   created() {
     if (this.defaultValue && !this.value) {
@@ -62,38 +72,45 @@ export default {
     choosePreset(preset) {
       this.$emit("input", preset * 1000000);
     },
+    onSliderChange() {
+      this.$emit("input", this.cValue);
+    },
   },
   computed: {
-    valueModel: {
-      get() {
-        return this.value || parseInt(this.minValue) || 0;
-      },
-      set(val) {
-        this.$emit("input", val);
-      },
-    },
     normValue() {
       function numberWithSpaces(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
       }
-      return numberWithSpaces(this.value || 0);
+      return numberWithSpaces(this.cValue || 0);
+    },
+  },
+  watch: {
+    value() {
+      this.cValue = this.value;
     },
   },
 };
 </script>
 
 <style lang="postcss">
-.quiz-question-range {
-  @apply w-[420px] pt-[40px] sm:w-full h-full sm:flex sm:flex-col sm:justify-center sm:items-stretch;
+.quiz-filters-range {
+  @apply sm:w-full sm:flex sm:flex-col sm:justify-center sm:items-stretch;
   &__value {
-    @apply font-bold text-[24px] py-[15px] px-[30px] rounded-[30px] bg-[#F3F3F3] text-left mb-[15px] mx-[10px] 
-    flex items-center justify-start;
+    @apply font-bold text-sm py-1.5 px-4 rounded-[30px] bg-[#F3F3F3] text-left 
+    flex items-center justify-start w-[140px];
   }
   &__preset {
     @apply text-xs;
   }
   &__presets {
-    @apply flex items-center space-x-1 mb-4 mx-[10px];
+    @apply flex items-center space-x-1 mb-2.5;
+  }
+
+  &__content {
+    @apply flex items-center w-full;
+  }
+  &__slider {
+    @apply flex-1;
   }
   .vue-slider {
     .vue-slider-process {

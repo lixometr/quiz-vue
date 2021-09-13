@@ -6,6 +6,9 @@ body {
   @apply box-border;
 }
 
+body {
+  @apply overflow-x-hidden;
+}
 .t-fade-enter,
 .t-fade-leave-to {
   @apply opacity-0;

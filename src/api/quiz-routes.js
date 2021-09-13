@@ -37,6 +37,16 @@ export const saveAnswer = async ({ sessionId, questionId, answers }) => {
   const { data } = await AppAxios.post("post-answer", formData);
   return data;
 };
+export const sendFilters = async ({ sessionId, filters }) => {
+  const jsonFilters = JSON.stringify(filters);
+  const formData = createFormData({
+    sessionId,
+    filters: jsonFilters,
+  });
+
+  const { data } = await AppAxios.post("filter", formData);
+  return data;
+};
 
 export const getFormData = async ({ sessionId }) => {
   const formData = createFormData({ sessionId });

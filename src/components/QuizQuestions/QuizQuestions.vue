@@ -1,6 +1,12 @@
 <template>
   <div class="quiz-questions">
-    <quiz-questions-steps :current="currentStep" :total="totalItems" />
+    <div class="quiz-questions__info">
+      <quiz-questions-steps :current="currentStep" :total="totalItems" />
+      <quiz-questions-count
+        v-if="activeQuestion.count"
+        :count="activeQuestion.count"
+      />
+    </div>
     <div class="quiz__float-bar quiz-questions__bar">
       <transition name="t-fade" mode="out-in">
         <quiz-question
@@ -22,8 +28,13 @@
 import QuizQuestion from "./QuizQuestion.vue";
 import QuizQuestionsSteps from "./QuizQuestionsSteps.vue";
 import { saveAnswer } from "../../api/quiz-routes";
+import QuizQuestionsCount from "./QuizQuestionsCount.vue";
 export default {
-  components: { QuizQuestionsSteps, QuizQuestion },
+  components: {
+    QuizQuestionsSteps,
+    QuizQuestion,
+    QuizQuestionsCount,
+  },
   props: {
     totalItems: Number,
     value: Object,
@@ -42,6 +53,13 @@ export default {
   },
   created() {
     this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
+    this.$eventBus.$on("goToQuestion", (questionId) => {
+      const questionIdx = this.questions.findIndex(
+        (item) => item.id === questionId
+      );
+      if (questionIdx < 0) return;
+      this.activeIdx = questionIdx;
+    });
   },
   computed: {
     activeQuestion() {
@@ -55,14 +73,14 @@ export default {
     goBack() {
       if (this.activeIdx < 1) return;
       this.activeIdx--;
-      this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
+      // this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
     },
     async nextStep() {
       await this.saveQuestion();
 
       if (this.activeIdx + 1 >= this.totalItems) return;
       this.activeIdx++;
-      this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
+      // this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
     },
     async saveQuestion() {
       const answers = this.answers[this.activeQuestion.id];
@@ -86,6 +104,15 @@ export default {
       this.questions = newQuestions;
     },
   },
+  watch: {
+    item() {
+      this.questions = [this.item];
+    },
+    activeQuestion() {
+      this.$eventBus.$emit("questionsInfo", this.activeQuestion.hint);
+      this.$eventBus.$emit("bg", this.activeQuestion.imageBack);
+    },
+  },
 };
 </script>
 
@@ -96,6 +123,9 @@ export default {
     sm:top-[0]  sm:max-h-[calc(95vh-60px)];
   &__bar {
     @apply w-[800px] min-h-[400px] max-h-[750px] flex flex-col flex-1 md:w-full sm:max-h-full;
+  }
+  &__info {
+    @apply absolute top-0 right-0 z-40;
   }
 }
 </style>

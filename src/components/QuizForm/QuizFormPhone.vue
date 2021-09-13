@@ -1,5 +1,5 @@
 <template>
-  <div class="quiz-form">
+  <div class="quiz-form-phone">
     <h2 class="mb-[40px] sm:mb-[30px]">
       {{ h1 }}
     </h2>
@@ -36,10 +36,10 @@
 </template>
 
 <script>
-import AButton from "./AButton.vue";
+import AButton from "../AButton.vue";
+
 export default {
   components: { AButton },
-  inheritAttrs: false,
   props: {
     h1: String,
     h2: String,
@@ -47,13 +47,10 @@ export default {
     icon: String,
     button: String,
   },
-  data() {
-    return {
-      phone: "",
-      errorMessage: "",
-    };
-  },
-  computed: {},
+  data: () => ({
+    phone: "",
+    errorMessage: "",
+  }),
   methods: {
     onSubmit() {
       if (!this.validate()) {
@@ -75,13 +72,4 @@ export default {
 };
 </script>
 
-<style lang="postcss">
-.quiz-form {
-  @apply text-second;
-  &__input {
-    @apply bg-second rounded-[30px] py-[20px] px-[25px] text-red outline-none border-none
-      w-[400px] font-medium text-[30px] leading-none placeholder-red
-      sm:w-full sm:text-[24px] sm:h-[60px];
-  }
-}
-</style>
+<style lang="postcss"></style>

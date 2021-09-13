@@ -25,7 +25,6 @@ module.exports = {
       black: "#000",
       red: {
         DEFAULT: "var(--main-color)",
-        dark: "#b8040a",
       },
       transparent: "transparent",
     },
