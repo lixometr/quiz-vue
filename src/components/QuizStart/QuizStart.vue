@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import AButton from "./AButton.vue";
+import AButton from "../AButton.vue";
 export default {
   components: { AButton },
   props: {

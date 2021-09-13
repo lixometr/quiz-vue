@@ -4,7 +4,7 @@
       <div class="cursor-pointer" @click="goBack" v-if="showBack">
         <svgBack width="35" />
       </div>
-      <h4 class="quiz-question__title">{{ title }}</h4>
+      <h4 class="quiz-question__title" v-html="title"></h4>
     </div>
     <div class="quiz-question__content">
       <component

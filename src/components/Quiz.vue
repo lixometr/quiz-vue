@@ -65,13 +65,19 @@
       :tagline="initialData.titles.tagline"
       v-if="state !== 'results'"
     />
-    <quiz-questions-info v-if="state === 'questions'" />
     <transition name="t-fade" mode="out-in">
-      <quiz-filters
-        v-if="state === 'form'"
-        v-bind="filter"
-        v-model="filtersData"
-        @input="onChangeFiltersData"
+      <quiz-questions-info v-if="state === 'questions' && isEnter" />
+    </transition>
+    <quiz-filters
+      v-if="state === 'form' && isEnter"
+      v-bind="filter"
+      v-model="filtersData"
+      @input="onChangeFiltersData"
+    />
+    <transition name="t-fade">
+      <quiz-start-info
+        v-if="state === 'start'"
+        :text="initialData.titles.count"
       />
     </transition>
   </div>
@@ -85,7 +91,7 @@ import QuizLoading from "./QuizLoading.vue";
 import QuizQuestions from "./QuizQuestions/QuizQuestions.vue";
 import QuizResults from "./QuizResults/QuizResults.vue";
 import QuizResultsContent from "./QuizResults/QuizResultsContent.vue";
-import QuizStart from "./QuizStart.vue";
+import QuizStart from "./QuizStart/QuizStart.vue";
 import {
   getInitialData,
   completeQuiz,
@@ -94,6 +100,7 @@ import {
 } from "@/api/quiz-routes";
 import QuizQuestionsInfo from "./QuizQuestions/QuizQuestionsInfo.vue";
 import QuizFilters from "./QuizFilters/QuizFilters.vue";
+import QuizStartInfo from "./QuizStart/QuizStartInfo.vue";
 export default {
   components: {
     QuizStart,
@@ -106,6 +113,7 @@ export default {
     QuizFormImage,
     QuizQuestionsInfo,
     QuizFilters,
+    QuizStartInfo,
   },
   data() {
     return {
@@ -116,6 +124,7 @@ export default {
       },
       filtersData: {},
       formData: {
+        images: {},
         screens: [
           {
             h1: "hey",
@@ -215,7 +224,6 @@ export default {
   },
   methods: {
     onChangeFiltersData() {
-      console.log("change filter", this.filtersData);
       this.sendFilters();
     },
     async sendFilters() {

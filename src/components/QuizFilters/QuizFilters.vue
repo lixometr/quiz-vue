@@ -1,41 +1,49 @@
 <template>
   <div class="quiz-filters-wrapper" v-if="showFilters">
-    <div class="quiz-filters-button" @click="open" v-if="!isOpen">
-      {{ title }} <svgArrowLeft width="72" class="mt-2" />
-    </div>
-    <div class="quiz-filters" :class="{ open: isOpen }">
-      <div class="quiz-filters__title" @click="clickTitle">
-        {{ title }}
-        <span class="quiz-filters__title-action">
-          <svgCross
-            class="quiz-filters__title-close"
-            width="25"
-            @click.stop="close"
-            v-if="isOpen"
-          />
-          <svgArrowTop
-            v-else
-            width="10"
-            class="quiz-filters__title-arrow"
-            @click.stop="open"
-          />
-        </span>
+    <transition name="t-fade">
+      <div
+        class="quiz-filters-button"
+        @click="open"
+        v-if="!isOpen && filtersLoaded"
+      >
+        {{ title }} <svgArrowLeft width="72" class="mt-2" />
       </div>
-      <div class="quiz-filters__items">
-        <div
-          class="quiz-filters__item"
-          v-for="(filter, idx) in items"
-          :key="idx"
-        >
-          <component
-            :is="filter.component"
-            v-bind="{ ...filter, ...filter.props }"
-            :value="value[filter.id]"
-            @input="onFilterChange(filter.id, $event)"
-          />
+    </transition>
+    <transition name="t-fade">
+      <div class="quiz-filters" :class="{ open: isOpen }" v-if="filtersLoaded">
+        <div class="quiz-filters__title" @click="clickTitle">
+          {{ title }}
+          <span class="quiz-filters__title-action">
+            <svgCross
+              class="quiz-filters__title-close"
+              width="25"
+              @click.stop="close"
+              v-if="isOpen"
+            />
+            <svgArrowTop
+              v-else
+              width="10"
+              class="quiz-filters__title-arrow"
+              @click.stop="open"
+            />
+          </span>
+        </div>
+        <div class="quiz-filters__items">
+          <div
+            class="quiz-filters__item"
+            v-for="(filter, idx) in items"
+            :key="idx"
+          >
+            <component
+              :is="filter.component"
+              v-bind="{ ...filter, ...filter.props }"
+              :value="value[filter.id]"
+              @input="onFilterChange(filter.id, $event)"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -60,13 +68,20 @@ export default {
     },
   },
   data: () => ({
-    isOpen: true,
+    isOpen: false,
     showFilters: true,
+    filtersLoaded: false,
   }),
   created() {
     this.$eventBus.$on("changeFilters", (value) => {
       this.showFilters = value;
     });
+    if (!window.matchMedia("(max-width: 1350px)").matches) {
+      this.isOpen = true;
+    }
+  },
+  mounted() {
+    this.filtersLoaded = true;
   },
   computed: {
     items() {
@@ -112,8 +127,8 @@ export default {
   @apply w-[490px] bg-cardBg rounded-[44px] py-9 px-[3.25rem]
   absolute left-[600px] top-[150px] z-[50] transform transition-all overflow-auto max-h-full
   lg:fixed lg:top-auto lg:left-auto lg:right-0 lg:bottom-0 lg:rounded-tr-none lg:rounded-br-none
-  lg:hidden 
-  sm:left-0 sm:w-full sm:rounded-tr-[30px] sm:rounded-tl-[30px] sm:rounded-bl-none sm:top-4 sm:py-3 sm:px-6
+  lg:translate-x-full 
+  sm:translate-x-0 sm:left-0 sm:w-full sm:rounded-tr-[30px] sm:rounded-tl-[30px] sm:rounded-bl-none sm:top-4 sm:py-3 sm:px-6
    sm:block sm:translate-y-full  sm:bottom-10;
   box-shadow: 0px 4px 57px rgba(0, 0, 0, 0.25);
 
@@ -144,7 +159,7 @@ export default {
     @apply space-y-7;
   }
   &.open {
-    @apply block sm:translate-y-0  sm:bottom-0;
+    @apply translate-x-0 sm:translate-y-0  sm:bottom-0;
   }
 }
 </style>

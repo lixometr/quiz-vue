@@ -69,7 +69,7 @@ export default {
 .quiz-form-item {
   @apply flex-1 flex flex-col items-stretch justify-start;
   .quiz-form__input {
-    @apply text-2xl text-second placeholder-[#5B698B] font-light;
+    @apply text-2xl text-buttonText placeholder-buttonText placeholder-shown:font-light sm:text-lg;
   }
 }
 </style>
