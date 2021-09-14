@@ -5,6 +5,7 @@
         :key="screen"
         :is="activeScreen.component"
         v-bind="activeScreen.data"
+        :newTitle="newTitle"
         @submit="onItemSubmit"
       />
     </transition>
@@ -20,6 +21,7 @@ export default {
   inheritAttrs: false,
   props: {
     screens: Array,
+    newTitle: String,
   },
   data() {
     return {

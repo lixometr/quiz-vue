@@ -43,6 +43,7 @@
 <script>
 import AButton from "../AButton.vue";
 export default {
+  inheritAttrs: false,
   components: { AButton },
   props: {
     h1: String,

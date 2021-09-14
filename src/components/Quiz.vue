@@ -36,6 +36,7 @@
           v-else-if="state === 'form'"
           @submit="sendForm"
           v-bind="formData"
+          :newTitle="filter.count"
         />
         <quiz-results-content
           v-else-if="state === 'results'"
@@ -240,7 +241,15 @@ export default {
         const updatedFilters = receivedFilters[filter.id];
         if (!updatedFilters) return;
         filter.available = updatedFilters;
+        // make active only available values
+        if (this.filtersData[filter.id]) {
+          const newValues = this.filtersData[filter.id].filter((itemId) =>
+            updatedFilters.includes(itemId)
+          );
+          this.$set(this.filtersData, filter.id, newValues);
+        }
       });
+      this.$set(this.filter, "count", newFilters.count);
     },
     setFilters(filter) {
       filter.filters.forEach((filterItem) => {

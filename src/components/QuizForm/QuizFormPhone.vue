@@ -1,7 +1,7 @@
 <template>
   <div class="quiz-form-phone">
     <h2 class="mb-[40px] sm:mb-[30px]">
-      {{ h1 }}
+      {{ newTitle || h1 }}
     </h2>
     <div class="sm:mx-[-20px]">
       <div class="flex items-center mb-[50px] sm:mb-[30px]">
@@ -39,6 +39,7 @@
 import AButton from "../AButton.vue";
 
 export default {
+  inheritAttrs: false,
   components: { AButton },
   props: {
     h1: String,
@@ -46,6 +47,7 @@ export default {
     hint: String,
     icon: String,
     button: String,
+    newTitle: String,
   },
   data: () => ({
     phone: "",

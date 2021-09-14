@@ -124,7 +124,7 @@ export default {
 
 <style lang="postcss">
 .quiz-filters {
-  @apply w-[490px] bg-cardBg rounded-[44px] py-9 px-[3.25rem]
+  @apply w-[500px] bg-cardBg rounded-[44px] py-9 px-[2.25rem]
   absolute left-[600px] top-[150px] z-[50] transform transition-all overflow-auto max-h-full
   lg:fixed lg:top-auto lg:left-auto lg:right-0 lg:bottom-0 lg:rounded-tr-none lg:rounded-br-none
   lg:translate-x-full 

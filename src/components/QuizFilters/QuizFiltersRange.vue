@@ -100,10 +100,10 @@ export default {
     flex items-center justify-start w-[140px];
   }
   &__preset {
-    @apply text-xs;
+    @apply text-xs mr-1 mb-1;
   }
   &__presets {
-    @apply flex items-center space-x-1 mb-2.5;
+    @apply flex items-center mb-2.5 flex-wrap;
   }
 
   &__content {
