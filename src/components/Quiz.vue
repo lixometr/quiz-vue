@@ -9,6 +9,7 @@
         class="quiz__bg"
         :style="{ backgroundImage: `url(${bgImage})` }"
         :key="bgImage"
+        v-if="bgImage"
       ></div>
     </transition>
     <div
@@ -70,7 +71,7 @@
       <quiz-questions-info v-if="state === 'questions' && isEnter" />
     </transition>
     <quiz-filters
-      v-if="state === 'form' "
+      v-if="state === 'form' && isEnter"
       v-bind="filter"
       v-model="filtersData"
       @input="onChangeFiltersData"
