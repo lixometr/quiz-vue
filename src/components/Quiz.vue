@@ -184,7 +184,7 @@ export default {
       loadingData: {},
       questions: [],
       isEnter: false,
-      stateIdx: 3,
+      stateIdx: 0,
       stateOrder: ["start", "questions", "loading", "form", "results"],
     };
   },
