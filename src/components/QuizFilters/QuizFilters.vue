@@ -28,6 +28,7 @@
             />
           </span>
         </div>
+        <div class="quiz-filters__sub-title" v-html="short_title"></div>
         <div class="quiz-filters__items">
           <div
             class="quiz-filters__item"
@@ -42,6 +43,9 @@
             />
           </div>
         </div>
+        <a-button class="quiz-filters__btn" color="red" @click="close"
+          >Ок</a-button
+        >
       </div>
     </transition>
   </div>
@@ -54,14 +58,16 @@ import QuizFiltersRangeVue from "./QuizFiltersRange.vue";
 import svgCross from "@/assets/icons/cross.svg?inline";
 import svgArrowTop from "@/assets/icons/arrow_top.svg?inline";
 import svgArrowLeft from "@/assets/icons/arrow_left_long.svg?inline";
+import AButton from "../AButton.vue";
 export default {
-  components: { svgCross, svgArrowTop, svgArrowLeft },
+  components: { svgCross, svgArrowTop, svgArrowLeft, AButton },
   props: {
     title: String,
     filters: {
       type: Array,
       default: () => [],
     },
+    short_title: String,
     value: {
       type: Object,
       default: () => ({}),
@@ -125,13 +131,21 @@ export default {
 <style lang="postcss">
 .quiz-filters {
   @apply w-[500px] bg-cardBg rounded-[44px] py-9 px-[2.25rem]
-  absolute left-[600px] top-[150px] z-[50] transform transition-all overflow-auto max-h-full
+  absolute left-[600px] top-[150px] z-[50] transform transition-all  max-h-full
   lg:fixed lg:top-auto lg:left-auto lg:right-0 lg:bottom-0 lg:rounded-tr-none lg:rounded-br-none
   lg:translate-x-full 
   sm:translate-x-0 sm:left-0 sm:w-full sm:rounded-tr-[30px] sm:rounded-tl-[30px] sm:rounded-bl-none sm:top-4 sm:py-3 sm:px-6
-   sm:block sm:translate-y-full  sm:bottom-10;
+   sm:block sm:translate-y-full sm:bottom-10;
   box-shadow: 0px 4px 57px rgba(0, 0, 0, 0.25);
-
+  &__btn {
+    @apply mt-4 mx-auto w-[85%] sm:block hidden h-[40px] leading-[40px] font-bold;
+  }
+  &__sub-title {
+    @apply mb-2 text-[#787878] font-medium sm:block hidden;
+    span {
+      @apply text-red font-bold;
+    }
+  }
   &-button {
     @apply absolute right-0 top-[300px] sm:hidden lg:block hidden z-50 bg-cardBg text-buttonText rounded-[30px]
       rounded-tr-none rounded-br-none px-8 py-5 leading-tight cursor-pointer
@@ -139,7 +153,7 @@ export default {
     box-shadow: 0px 4px 57px rgba(0, 0, 0, 0.25);
   }
   &__title {
-    @apply font-bold text-xl mb-6 flex justify-between items-center sm:text-sm sm:mb-5;
+    @apply font-bold text-xl mb-2 flex justify-between items-center sm:text-sm;
     &-action {
       @apply text-red;
     }
@@ -159,7 +173,7 @@ export default {
     @apply space-y-7;
   }
   &.open {
-    @apply translate-x-0 sm:translate-y-0  sm:bottom-0;
+    @apply translate-x-0 sm:translate-y-0  sm:bottom-0 overflow-auto;
   }
 }
 </style>

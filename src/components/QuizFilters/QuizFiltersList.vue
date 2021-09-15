@@ -110,10 +110,10 @@ export default {
 <style lang="postcss">
 .quiz-filters-list {
   &__title {
-    @apply flex justify-between items-center xs:flex-col  xs:items-start xs:mb-4;
+    @apply flex justify-between items-center flex-wrap;
   }
   &__actions {
-    @apply flex items-center space-x-2.5 xs:flex-col xs:items-start xs:space-x-0 xs:space-y-2.5 xs:mt-2;
+    @apply flex items-center space-x-2.5 xs:mt-2;
     &-item {
       @apply text-xs font-normal;
     }

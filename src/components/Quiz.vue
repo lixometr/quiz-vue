@@ -70,7 +70,7 @@
       <quiz-questions-info v-if="state === 'questions' && isEnter" />
     </transition>
     <quiz-filters
-      v-if="state === 'form' && isEnter"
+      v-if="state === 'form' "
       v-bind="filter"
       v-model="filtersData"
       @input="onChangeFiltersData"
@@ -184,7 +184,7 @@ export default {
       loadingData: {},
       questions: [],
       isEnter: false,
-      stateIdx: 0,
+      stateIdx: 3,
       stateOrder: ["start", "questions", "loading", "form", "results"],
     };
   },
@@ -250,6 +250,7 @@ export default {
         }
       });
       this.$set(this.filter, "count", newFilters.count);
+      this.$set(this.filter, "short_title", newFilters.short_title);
     },
     setFilters(filter) {
       filter.filters.forEach((filterItem) => {
