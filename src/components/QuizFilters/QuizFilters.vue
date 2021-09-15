@@ -134,8 +134,8 @@ export default {
   absolute left-[600px] top-[150px] z-[50] transform transition-all  max-h-full
   lg:fixed lg:top-auto lg:left-auto lg:right-0 lg:bottom-0 lg:rounded-tr-none lg:rounded-br-none
   lg:translate-x-full 
-  sm:translate-x-0 sm:left-0 sm:w-full sm:rounded-tr-[30px] sm:rounded-tl-[30px] sm:rounded-bl-none sm:top-4 sm:py-3 sm:px-6
-   sm:block sm:translate-y-full sm:bottom-10;
+  sm:translate-x-0 sm:left-0 sm:w-full sm:rounded-tr-[30px] sm:rounded-tl-[30px] sm:rounded-bl-none sm:top-4 sm:py-[.85rem] sm:px-6
+   sm:block sm:translate-y-full sm:bottom-[2.7rem];
   box-shadow: 0px 4px 57px rgba(0, 0, 0, 0.25);
   &__btn {
     @apply mt-4 mx-auto w-[85%] sm:block hidden h-[40px] leading-[40px] font-bold;
@@ -153,7 +153,7 @@ export default {
     box-shadow: 0px 4px 57px rgba(0, 0, 0, 0.25);
   }
   &__title {
-    @apply font-bold text-xl mb-2 flex justify-between items-center sm:text-sm;
+    @apply font-bold text-xl mb-2 flex justify-between items-center sm:text-[.975rem];
     &-action {
       @apply text-red;
     }
