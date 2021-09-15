@@ -3,6 +3,7 @@
     class="quiz"
     :class="state"
     :style="`--main-color: ${mainColor}; --second-color: ${secondColor}; --card-bg-color: ${questionBackColor}; --button-text-color: ${buttonTextColor}`"
+    v-if="isFetched"
   >
     <transition enter-active-class="fadeInUp" leave-active-class="fadeOutDown">
       <div
@@ -179,6 +180,7 @@ export default {
           },
         ],
       },
+      isFetched: false,
       resultsData: {},
       bgImage: "",
       answers: {},
@@ -319,9 +321,12 @@ export default {
     },
     async fetchInitial() {
       try {
+        this.isFetched = false;
         const data = await getInitialData();
         this.initialData = data;
         this.bgImage = data.images.back1;
+        this.isFetched = true;
+
         //console.log(data);
       } catch (err) {
         console.log(err);
