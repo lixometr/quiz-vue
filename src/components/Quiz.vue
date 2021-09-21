@@ -69,7 +69,7 @@
       v-if="state !== 'results'"
     />
     <transition name="t-fade" mode="out-in">
-      <quiz-questions-info v-if="state === 'questions' && isEnter" />
+      <quiz-questions-info v-if="state === 'questions'" />
     </transition>
     <quiz-filters
       v-if="state === 'form' && isEnter"
